@@ -1,6 +1,6 @@
 # MMM-Today
 
-MMM-Today is a MagicMirror² module that displays historical events and facts for the current day.
+MMM-Today is a MagicMirror² module that displays historical events from the current date.
 
 ## Installation
 1. Clone the MMM-Today repository into the `modules` directory of your MagicMirror²:
@@ -24,7 +24,7 @@ To use MMM-Today, add it to the `modules` array in the `config/config.js` file o
 ```
 
 ## Usage
-MMM-Today displays historical events and facts for the current day. The module will cycle through the articles with the specified intervals.
+MMM-Today is a MagicMirror² module that displays historical events from the current date. The module will cycle through the articles with the specified intervals.
 
 ## Dependencies
 * MagicMirror² (not tested on versions below 2.12.0)
