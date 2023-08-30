@@ -66,14 +66,20 @@ Module.register("MMM-Today", {
 
     changeArticle: function () {
         if (this.articles.length > 0) {
-            this.articleContent = this.articles[this.currentArticleIndex];
-            this.updateDom();
-            this.currentArticleIndex = (this.currentArticleIndex + 1) % this.articles.length;
+          const currentArticle = this.articles[this.currentArticleIndex];
+          const articleYearMatch = /(\d{4})/.exec(currentArticle); // Extract year from article content
+          const articleYear = articleYearMatch ? articleYearMatch[1] : ''; // Extracted year or empty string
+      
+          this.articleContent = currentArticle;
+          this.articleYear = articleYear; // Store extracted year
+          this.updateDom();
+          this.currentArticleIndex = (this.currentArticleIndex + 1) % this.articles.length;
         } else {
-            this.articleContent = "Finner ingen artikler.";
-            this.updateDom();
+          this.articleContent = "Finner ingen artikler.";
+          this.articleYear = '';
+          this.updateDom();
         }
-    },
+      },
 
     extractArticles: function (data) {
         const excludedKeywords = ["født"]; // List of excluded keywords
@@ -97,32 +103,33 @@ Module.register("MMM-Today", {
 
     getDom: function () {
         const wrapper = document.createElement("div");
-
+      
         if (this.articles.length > 0) {
-            const articleSource = document.createElement("div");
-            articleSource.className = "light small dimmed";
-            const url = new URL(this.config.apiURL);
-            articleSource.innerText = `Fra ${url.hostname}`;
-            wrapper.appendChild(articleSource);
-
-            const articleTitle = document.createElement("div");
-            articleTitle.className = "bright medium light";
-            articleTitle.innerText = "Dagens artikkel";
-            wrapper.appendChild(articleTitle);
-
-            const articleContentElement = document.createElement("div");
-            articleContentElement.className = "small light articleContent";
-            articleContentElement.innerHTML = this.articleContent;
-            wrapper.appendChild(articleContentElement);
+          const articleSource = document.createElement("div");
+          articleSource.className = "light small dimmed";
+          const url = new URL(this.config.apiURL);
+          articleSource.innerText = `Fra ${url.hostname}`;
+          wrapper.appendChild(articleSource);
+      
+          const articleTitle = document.createElement("div");
+          articleTitle.className = "bright medium light";
+          articleTitle.innerText = "Denne datoen, "+this.articleYear || "Dagens artikkel"; // Use the year or default text
+          wrapper.appendChild(articleTitle);
+      
+          const articleContentElement = document.createElement("div");
+          articleContentElement.className = "small light articleContent";
+          articleContentElement.innerHTML = this.articleContent;
+          wrapper.appendChild(articleContentElement);
         } else {
-            const noDataMessage = document.createElement("div");
-            noDataMessage.className = "small dimmed";
-            noDataMessage.innerText = "Forsøker å laste inn artikkel...";
-            wrapper.appendChild(noDataMessage);
+          const noDataMessage = document.createElement("div");
+          noDataMessage.className = "small dimmed";
+          noDataMessage.innerText = "Forsøker å laste inn artikkel...";
+          wrapper.appendChild(noDataMessage);
         }
-
+      
         return wrapper;
-    },
+      },
+      
 
     getStyles: function () {
         return ["MMM-Today.css"];
