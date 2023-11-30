@@ -44,7 +44,7 @@ Module.register("MMM-Today", {
     },
 
     loadData: function () {
-        const url = 'https://cors-anywhere.herokuapp.com/' + this.config.apiURL;
+        const url = 'http://localhost:5566/' + this.config.apiURL;
         const headers = {
             'X-Requested-With': 'XMLHttpRequest'
         };
